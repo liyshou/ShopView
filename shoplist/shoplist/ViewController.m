@@ -10,6 +10,7 @@
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIView *shopview;
+@property (weak, nonatomic) IBOutlet UILabel *buh;
 @property (nonatomic,strong) NSArray * imageNames;
 @property(weak,nonatomic)UIButton *addBtn;
 @property(weak,nonatomic)UIButton *removeBtn;
@@ -122,10 +123,27 @@ int i = 0 ;
 #pragma mark 检查按钮状态
 -(void) checkState
 {
+    NSString *text = nil;
     self.removeBtn.enabled = (self.shopview.subviews.count) > 0;
-    
     self.addBtn.enabled = (self.shopview.subviews.count < self.shops.count);
-    
+    if (self.removeBtn.enabled == NO)
+    {
+        text = @"已经全部删除";
+    }
+    else if(self.addBtn.enabled == NO)
+    {
+        text =@"已经添加满了";
+    }
+    if(text == nil)
+    {
+        return ;
+    }
+    self.buh.text = text;
+    self.buh.alpha = 1.0;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.buh.alpha = 0.0;
+    });
 }
+
 
 @end
